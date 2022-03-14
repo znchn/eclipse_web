@@ -17,9 +17,10 @@ public class JDBCUtil {
 	static{
 		try {
 			Properties properties = new Properties();
-			properties.load(JDBCUtil.class.getResourceAsStream("db.properties"));
+			properties.load(JDBCUtil.class.getClassLoader().getResourceAsStream("db.properties"));
 			ds = BasicDataSourceFactory.createDataSource(properties);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -29,6 +30,7 @@ public class JDBCUtil {
 			try {
 				con = ds.getConnection();
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			threadLocal.set(con);
 		}
@@ -48,6 +50,7 @@ public class JDBCUtil {
 				threadLocal.remove();
 			} 
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
