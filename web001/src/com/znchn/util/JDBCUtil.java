@@ -24,7 +24,7 @@ public class JDBCUtil {
 		}
 	}
 	
-	private static Connection getConnection() {
+	public static Connection getConnection() {
 		Connection con = threadLocal.get();
 		if(con == null){
 			try {
@@ -37,7 +37,7 @@ public class JDBCUtil {
 		return con;
 	}
 	
-	private static void closeConnection(Connection con, PreparedStatement ps, ResultSet rs) {
+	public static void closeConnection(Connection con, PreparedStatement ps, ResultSet rs) {
 		try {
 			if (rs != null) {
 				rs.close();
