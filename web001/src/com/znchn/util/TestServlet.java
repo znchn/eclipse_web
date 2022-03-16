@@ -17,7 +17,7 @@ public class TestServlet implements Servlet{
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		System.out.println("Ïú»Ù");
+		System.out.println("é”€æ¯");
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class TestServlet implements Servlet{
 	@Override
 	public void init(ServletConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
-		System.out.println("³õÊ¼»¯");
+		System.out.println("åˆå§‹åŒ–");
 		
 	}
 
@@ -47,7 +47,7 @@ public class TestServlet implements Servlet{
 		
 		
 		// TODO Auto-generated method stub
-		System.out.println("servletÇëÇó");
+		System.out.println("servletè¯·æ±‚");
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		System.out.println("username==" + username);
@@ -61,17 +61,17 @@ public class TestServlet implements Servlet{
 	public String login(String username, String password) {
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "select count(1) from user where username=? and password=?";
+			String sql = "select id from t_user where username=? and password=?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, username);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				return "µÇÂ¼³É¹¦";
+				return "ç™»å½•æˆåŠŸ";
 			} 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "µÇÂ½Ê§°Ü";
+		return "ç™»é™†å¤±è´¥";
 	}
 }
