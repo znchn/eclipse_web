@@ -17,4 +17,13 @@
   	<servlet-name>demo1</servlet-name>
   	<url-pattern>/demo11</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>demo2</servlet-name>
+  	<servlet-class>com.znchn.servlet.UserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>demo2</servlet-name>
+  	<url-pattern>/demo22</url-pattern>
+  </servlet-mapping>
 </web-app>

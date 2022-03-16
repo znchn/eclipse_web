@@ -1,10 +1,6 @@
-package com.znchn.util;
+package com.znchn.servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -12,14 +8,16 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.junit.Test;
+import com.znchn.entity.User;
+import com.znchn.service.UserService;
+import com.znchn.service.UserServiceImpl;
 
-public class TestServlet implements Servlet{
+public class UserServlet implements Servlet{
 
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		System.out.println("销毁");
+		
 	}
 
 	@Override
@@ -37,7 +35,6 @@ public class TestServlet implements Servlet{
 	@Override
 	public void init(ServletConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
-		System.out.println("初始化");
 		
 	}
 
@@ -47,39 +44,24 @@ public class TestServlet implements Servlet{
 		res.setContentType("text/html;charset=utf-8");
 		res.setCharacterEncoding("UTF-8");
 		
-		
-		// TODO Auto-generated method stub
-		System.out.println("servlet请求");
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		System.out.println("username==" + username);
 		System.out.println("password==" + password);
 		
-		String retStr = login(username, password);
-		
-		res.getWriter().write(retStr);
-	}
-
-	
-	public String login(String username, String password) {
+		UserService service = new UserServiceImpl();
+		User user = null;
 		try {
-			Connection con = JDBCUtil.getConnection();
-			String sql = "select id from t_user where username=? and password=?";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, username);
-			ps.setString(2, password);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				return "登录成功";
-			} 
+			user = service.selectUserByNameAndPwd(username, password);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "登陆失败";
+		if(user != null) {
+			res.getWriter().write("登陆成功");
+		}else {
+			res.getWriter().write("登录失败");
+		}
 	}
-	
-	@Test
-	public void test() {
-		System.out.println("111");
-	}
+
 }
