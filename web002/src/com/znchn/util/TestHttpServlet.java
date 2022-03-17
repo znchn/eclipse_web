@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -11,12 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns="/TestHttpServlet", loadOnStartup=1,initParams= {@WebInitParam(name="initName",value="initValue"), @WebInitParam(name="github.com", value="com.znchn")})
+@WebServlet(name="ddd",urlPatterns="/TestHttpServlet", loadOnStartup=1,initParams= {@WebInitParam(name="initName",value="initValue"), @WebInitParam(name="github.com", value="com.znchn")})
 public class TestHttpServlet extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 //		super.doPost(req, resp);
 		System.out.println("httpServlet响应========doPost");
 		
@@ -27,7 +27,6 @@ public class TestHttpServlet extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 //		super.doGet(req, resp);
 		System.out.println("httpServlet响应=========doGet");
 		
@@ -35,21 +34,24 @@ public class TestHttpServlet extends HttpServlet{
 		resp.setContentType("text/html;charset=utf-8");
 		resp.getWriter().write("这个是get请求返回");
 		
+		//ServletConfig（Servlet配置信息）
+		ServletConfig config = getServletConfig();
+		//ServletName默认为当前访问Servlet全路径（com.znchn.util.TestHttpServlet），当注解中配置了name属性之后就是当前配置的信息（ddd）
+		System.out.println("ServletName====" + config.getServletName());
 		//获取initParams的数据
-		Enumeration<String> en = this.getInitParameterNames();
+		Enumeration<String> en = config.getInitParameterNames();	//获取所有参数的名字  返回值  枚举
 		while (en.hasMoreElements()) {
 			String name = en.nextElement();
-			String value = this.getInitParameter(name);
+			String value = config.getInitParameter(name);			//获取初始化参数的值
 			
 			System.out.println("name==" + name + "\t" + "value===" + value);
 		}
 		
-	}
-	
-	@Override
-	public ServletConfig getServletConfig() {
-		// TODO Auto-generated method stub
-		return super.getServletConfig();
+		
+		//ServletContext（当前项目域对象之一，范围最大，所有Servlet共享）
+		ServletContext context = getServletContext();
+		System.out.println("context===" + context.getAttribute("msg"));
+		
 	}
 	
 	/**
@@ -57,7 +59,6 @@ public class TestHttpServlet extends HttpServlet{
 	 */
 	@Override
 	public void init() throws ServletException {
-		// TODO Auto-generated method stub
 		super.init();
 		
 		System.out.println("初始化");

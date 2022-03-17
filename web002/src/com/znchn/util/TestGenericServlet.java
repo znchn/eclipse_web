@@ -3,6 +3,7 @@ package com.znchn.util;
 import java.io.IOException;
 
 import javax.servlet.GenericServlet;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -20,6 +21,10 @@ public class TestGenericServlet extends GenericServlet{
 		System.out.println("GenericServlet响应");
 		
 		res.getWriter().write("GenericServlet响应了");
+		
+		
+		ServletContext context = getServletContext();
+		context.setAttribute("msg", "ServletContext域对象数据");
 	}
 
 }
