@@ -1,6 +1,7 @@
 package com.znchn.util;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
@@ -8,6 +9,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSourceFactory;
+import org.junit.Test;
 
 public class JDBCUtil {
 
@@ -58,5 +60,21 @@ public class JDBCUtil {
 		Connection con = JDBCUtil.getConnection();
 		System.out.println(con);
 		JDBCUtil.closeConnection(con, null, null);
+	}
+	
+	@Test
+	public void testConectionByClass() {
+		String dirverClassName = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://127.0.0.1:3306/study";
+		String user = "root";
+		String password = "138139";
+		
+		try {
+			Class.forName(dirverClassName);
+			Connection con = DriverManager.getConnection(url, user, password);
+			System.out.println(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
